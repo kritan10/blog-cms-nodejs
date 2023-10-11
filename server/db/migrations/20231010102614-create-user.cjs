@@ -3,9 +3,6 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    await queryInterface.createSchema('cms')
-
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
@@ -31,7 +28,8 @@ module.exports = {
 
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
 
       deletedAt: {

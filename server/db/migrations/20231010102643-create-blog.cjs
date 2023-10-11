@@ -23,18 +23,15 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
-
-      tags: {
-        type: Sequelize.STRING,
-      },
-
+      
       createdBy: {
         type: Sequelize.UUID,
       },
 
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
 
       deletedAt: {
