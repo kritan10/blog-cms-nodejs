@@ -8,5 +8,6 @@ service userCrudService{
     rpc read (user.userCrud.readUserRequest) returns (user.userCrud.readUserResponse);
     rpc update (user.userCrud.updateUserRequest) returns (user.userCrud.updateUserResponse);
     rpc delete (user.userCrud.deleteUserRequest) returns (user.userCrud.deleteUserResponse);
+    //read by email do
 
 }

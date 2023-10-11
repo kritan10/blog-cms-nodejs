@@ -1,26 +1,20 @@
 import grpc from '@grpc/grpc-js'
 import protoLoader from '@grpc/proto-loader'
-import { createUser, readUserById, updateById } from './modules/userModules/user.js'
+import { createUser, readUserById, updateById, deleteById} from './modules/userModules/user.js'
 
 
 // import path, { dirname } from 'path'
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
+console.log(__dirname);
 
-// const fileName = fileURLToPath(import.meta.url)
-// console.log(fileName);
-// const dirName  = path.dirname(fileName)
-// console.log(dirName);
+// C:/Users/bibek.regmi/blog-cms-nodejs/server/services/mcs-users/proto/userProto/userCrud.rpc.proto
 
-const protoPath  = new URL('/C:/Users/bibek.regmi/blog-cms-nodejs/server/services/mcs-users/proto/userProto/userCrud.rpc.proto', import.meta.url).pathname
-
-// const filePath = `${__dirname}`;
-// const testPath = './proto/userProto/userCrud.rpc.proto'
-// const protoPath =  `${filePath}/${testPath}`
-
-
-const packageDefinition = protoLoader.loadSync("C:/Users/bibek.regmi/blog-cms-nodejs/server/services/mcs-users/proto/userProto/userCrud.rpc.proto",{
+const packageDefinition = protoLoader.loadSync(`${__dirname}/proto/userProto/userCrud.rpc.proto`,{
     keepCase:true,
     longs:String,
     defaults:true
@@ -33,7 +27,8 @@ const userProto = grpc.loadPackageDefinition(packageDefinition);
 server.addService(userProto.user.userCrud.rpc.userCrudService.service,{
     create: createUser,
     read : readUserById,
-    update : updateById 
+    update : updateById,
+    delete : deleteById
 })
 
    
