@@ -1,0 +1,12 @@
+syntax = "proto3";
+package user.userCrud.rpc;
+import "userCrud.proto";
+
+
+service userCrudService{
+    rpc create (user.userCrud.createUserRequest) returns (user.userCrud.createUserResponse);
+    rpc read (user.userCrud.readUserRequest) returns (user.userCrud.readUserResponse);
+    rpc update (user.userCrud.updateUserRequest) returns (user.userCrud.updateUserResponse);
+    // rpc read (user.userCrud.createUserRequest) returns (user.userCrud.createUserResponse);
+
+}
