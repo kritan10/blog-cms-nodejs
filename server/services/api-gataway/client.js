@@ -5,16 +5,15 @@ import protoLoader from '@grpc/proto-loader'
 
 // import path, { dirname } from 'path'
 
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+let dirPath = path.join(process.cwd(), '/server/services/common/proto/userProto/userCrud.rpc.proto')
 
 
 
 
-const packageDefinition = protoLoader.loadSync(`${__dirname}/proto/userProto/userCrud.rpc.proto`, {
+
+const packageDefinition = protoLoader.loadSync(dirPath, {
     keepCase: true,
     longs: 'string',
     defaults: true,
@@ -23,7 +22,7 @@ const packageDefinition = protoLoader.loadSync(`${__dirname}/proto/userProto/use
   const SimpleuserCrudService = protoDescriptor.user.userCrud.rpc.userCrudService;
 
   const client = new SimpleuserCrudService(
-      "localhost:50051",
+      "0.0.0.0:50051",
       grpc.credentials.createInsecure()
   );
   

@@ -3,14 +3,14 @@
 import express from "express"
 import bodyParser from "body-parser";
 
-import {router as mainroute} from './routes/index.js'
+import {router as mainroute, router} from './routes/index.js'
 
 
 const app = express();
-app.use("/",mainroute);
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/", mainroute);
+
 
 const PORT =3000;
 app.listen(PORT, () => {

@@ -64,3 +64,26 @@ message deleteUserResponse{
     string message = 2;
     
 }
+
+
+message registerUserRequest{
+    string name = 1;
+    string email = 2;
+    string password = 3;
+    string role = 4;
+}
+
+message registerUserResponse{
+    string status = 1;
+    string message = 2;
+}
+message loginUserRequest{
+    string email= 1;
+    string password =2;
+}
+
+message loginUserResponse{
+    string status = 1;
+    string message = 2;
+    
+}

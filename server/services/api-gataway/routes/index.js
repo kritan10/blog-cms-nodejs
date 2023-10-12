@@ -7,7 +7,7 @@ import {router as user} from './userRoutes/index.js'
     
 
     router.use("/users",user);
-   
-    export { router };
+    
+export { router };
 
 

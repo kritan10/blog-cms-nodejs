@@ -98,7 +98,34 @@ const deleteById = async (call, callback) => {
 
     if (updateResponse.affectedRows > 0) {
       response.status = httpStatus[200];
-      response.message = `User updated for user with id ${call.request.id}`;
+      response.message = `User deleted for user with id ${call.request.id}`;
+    }
+    return callback(null, response);
+  } catch (error) {
+    return callback(error);
+  }
+};
+const registerUser = async (call, callback) => {
+  const saltRound = 5;
+
+  let response = {};
+  const id = uuidv4();
+  call.request.createdAt = new Date();
+  call.request.id = id;
+
+  const hashPassword = await bcrypt.hash(call.request.password, saltRound);
+
+  call.request.password = hashPassword;
+
+  try {
+    // connectdb = connection.connect();
+    const dbResponse = await connection
+      .promise()
+      .query(`insert into Users set ? `, call.request);
+
+    if (dbResponse) {
+      response.status = true;
+      response.message = `User created successfully`;
     }
     return callback(null, response);
   } catch (error) {
@@ -106,4 +133,31 @@ const deleteById = async (call, callback) => {
   }
 };
 
-export { createUser, readUserById, updateById, deleteById };
+const loginByEmail = async (call,callback)=>{
+  let response={};
+  try {
+
+    const query = `select * from users where email = ?`;
+    const params = [call.request.email]
+    const [dbResponse] = await connection.promise().query(query,params);
+
+    if(dbResponse){
+      const match = bcrypt.compare(dbResponse[0].password,call.request.password);
+
+      if(match){
+        response.status= dbResponse[0].id;
+        response.message = `Login Successful`
+      }
+      
+    }
+
+    return callback(null, response)
+
+   
+  } catch (error) {
+    return callback(error);
+    
+  }
+}
+
+export { createUser, readUserById, updateById, deleteById, registerUser, loginByEmail };

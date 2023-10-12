@@ -9,27 +9,27 @@ dotenv.config()
 
 const jwtsecret = 'asdfghjkl'
 
-const register = async (req, res) => {
- try {
-   
-    
-     const user = await client.create(req);
-  
-    if(user.status == '200'){
-    const token = jwt.sign({id:user.id}, jwtsecret, {
-      expiresIn: 60*60*5
-  });
-  res.cookie('authToken', token, { httpOnly: true });
-  }
-  
-  
- } catch (error) {
-    res.send(error)
+const registerUser = async(request,res)=>{
+    const jwtsecret = 'asdfgh'
+   client.create(request.body,(err,data)=>{
+    if(err){
+        res.send('error',err);
+    }
+    else {
+        
+        const token = jwt.sign({id:request.body.email}, jwtsecret, {
+            expiresIn: 60*60*5})
+        
+        res.cookie('authToken', token, { httpOnly: true });
+        
+       
+        res.send(data)
+    }
+   });
 
- }
+ 
+}
 
-
-};
 
 
 
@@ -43,27 +43,24 @@ const login =async (req, res, next) =>{
        )
    }
    //finding user by email and checking
-   const [user] = await client.read(req)
+   const [user] = await client.login(req)
       
 
    // Check for user with email.
-   if(!user){
+   if(!user.status){
        return next(
           res.send('Invalid crediential.')
        )
    }
-   // Check the password matched or not with the hashed password in db
-   const isMatched = await user.matchPassword(password);
+  
 
-   // Sent Error to the client with code 400 invalid crediential.
-   if(!isMatched){
-       return next(
-           res.send('Invalid crediential.')
-       )
-   }
-   const token = jwt.sign({id:user.id}, jwtsecret, {
-      expiresIn: 60*60*5})
-   // If passed all then send response token and set cookie is defaul in this function
-   return res.cookie('authToken', token, { httpOnly: true });
+
+if(user.status){
+    const token = jwt.sign({id:user.id}, jwtsecret, {
+        expiresIn: 60*60*5})
+     // If passed all then send response token and set cookie is defaul in this function
+     return res.cookie('authToken', token, { httpOnly: true });
+}
+  
 };
-export { register, login }
+export { registerUser, login }
