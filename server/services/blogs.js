@@ -41,7 +41,7 @@ async function getBlogByIdService(call, callback) {
 }
 
 async function createBlogService(call, callback) {
-	const { title, content, image } = call.request;
+	const { title, content, image, tags } = call.request;
 	// check if blog title or blog content is falsy
 	if (!content || !title) return callback({ message: 'Blog title or body not defined.' }, null);
 
@@ -49,10 +49,11 @@ async function createBlogService(call, callback) {
 		title: title,
 		content: content,
 		image: image,
+		tags: tags,
 	};
 
 	const createdBlogId = await createBlog(blog);
-	if (!createdBlogId) return callback({ message: 'Blog not created.' }, null);
+	if (!createdBlogId) return callback({ message: 'Blog not created.', }, null);
 
 	const response = await getBlogById(createdBlogId);
 	callback(null, response);
@@ -62,6 +63,9 @@ async function updateBlogService(call, callback) {
 	const id = call.request.id;
 	if (!id) return callback({ message: 'Blog id not defined.' }, null);
 
+	const doesBlogExist = await getBlogById(id);
+	if (!doesBlogExist) return callback({ message: 'Blog not found.' }, null);
+
 	const { title, content, image } = call.request;
 	if (!content || !title) return callback({ message: 'Blog title or body not defined.' }, null);
 
@@ -70,7 +74,9 @@ async function updateBlogService(call, callback) {
 		content: content,
 		image: image,
 	};
-	const response = await updateBlog(id, blog);
+
+	await updateBlog(id, blog);
+	const response = await getBlogById(id);
 
 	callback(null, response);
 }
@@ -80,7 +86,7 @@ async function deleteBlogService(call, callback) {
 	if (!id) return callback({ message: 'Blog id not defined.' }, null);
 
 	const response = await deleteBlog(id);
-
+	
 	callback(null, response);
 }
 

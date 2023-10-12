@@ -1,14 +1,9 @@
 import grpc from '@grpc/grpc-js';
 import protoloader from '@grpc/proto-loader';
-import {
-	listBlogsService,
-	getBlogByIdService,
-	createBlogService,
-	updateBlogService,
-	deleteBlogService,
-} from './server/services/blogs.js';
+import { listBlogsService, getBlogByIdService, createBlogService, updateBlogService, deleteBlogService } from './services/blogs.js';
+import path from 'path';
 
-const blogsPackage = protoloader.loadSync('./server/proto/blog.proto', {
+const blogsPackage = protoloader.loadSync(path.resolve('common/proto/blog.proto'), {
 	keepCase: true,
 	longs: String,
 	enums: String,
@@ -29,13 +24,9 @@ function main() {
 		DeleteBlog: deleteBlogService,
 	});
 
-	server.bindAsync(
-		'0.0.0.0:50051',
-		grpc.ServerCredentials.createInsecure(),
-		() => {
-			server.start();
-		}
-	);
+	server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+		server.start();
+	});
 }
 
 main();
