@@ -160,4 +160,20 @@ const loginByEmail = async (call,callback)=>{
   }
 }
 
-export { createUser, readUserById, updateById, deleteById, registerUser, loginByEmail };
+
+const logoutById = async (call,callback)=>{
+ let response ={}
+ try{
+    response.id = call.request.id;
+    response.message = `Use this id to logout user`
+
+    return callback(null, response)
+
+   
+  } catch (error) {
+    return callback(error);
+    
+  }
+}
+
+export { createUser, readUserById, updateById, deleteById, registerUser, loginByEmail, logoutById };

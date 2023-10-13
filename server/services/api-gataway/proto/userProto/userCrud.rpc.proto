@@ -1,0 +1,14 @@
+syntax = "proto3";
+package user.userCrud.rpc;
+import "userCrud.proto";
+
+
+service userCrudService{
+    rpc create (user.userCrud.createUserRequest) returns (user.userCrud.createUserResponse);
+    rpc read (user.userCrud.readUserRequest) returns (user.userCrud.readUserResponse);
+    rpc update (user.userCrud.updateUserRequest) returns (user.userCrud.updateUserResponse);
+    rpc delete (user.userCrud.deleteUserRequest) returns (user.userCrud.deleteUserResponse);
+    rpc register (user.userCrud.registerUserRequest) returns (user.userCrud.registerUserResponse);
+    rpc login (user.userCrud.loginUserRequest) returns (user.userCrud.loginUserResponse);
+    rpc logout (user.userCrud.logoutUserRequest) returns (user.userCrud.logoutUserRequest);
+}

@@ -1,0 +1,100 @@
+syntax="proto3";
+
+package user.userCrud;
+
+
+//create user request and response
+
+message createUserRequest{
+
+    string name = 1;
+    string email = 2;
+    string password = 3;
+    string role = 4;
+   
+}
+
+
+message createUserResponse{
+    string status = 1;
+    string message = 2;
+    
+}
+
+
+//read user request and response
+
+message readUserRequest{
+    string id = 1;
+}
+
+
+message readUserResponse{
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string role = 4;
+
+}
+
+//update user request and response
+
+message updateUserRequest{
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string password = 4;
+    string role = 5;
+}
+
+message updateUserResponse{
+
+    string status = 1;
+    string message = 2;
+    
+}
+
+//delete user request and response
+message deleteUserRequest{
+    string id = 1;
+}
+
+message deleteUserResponse{
+    string status = 1;
+    string message = 2;
+    
+}
+
+
+message registerUserRequest{
+    string name = 1;
+    string email = 2;
+    string password = 3;
+    string role = 4;
+}
+
+message registerUserResponse{
+    string status = 1;
+    string message = 2;
+}
+message loginUserRequest{
+    string email= 1;
+    string password =2;
+}
+
+message loginUserResponse{
+    string status = 1;
+    string message = 2;
+    
+}
+
+
+message logoutUserRequest{
+    string id = 1;
+    
+}
+
+message logoutUserResponse{
+    string id = 1;
+    string message =2;
+}

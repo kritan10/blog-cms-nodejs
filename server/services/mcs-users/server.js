@@ -1,18 +1,18 @@
 import grpc from '@grpc/grpc-js'
 import protoLoader from '@grpc/proto-loader'
-import { createUser, readUserById, updateById, deleteById, registerUser, loginByEmail} from './modules/userModules/user.js'
+import { createUser, readUserById, updateById, deleteById, registerUser, loginByEmail, logoutById} from './modules/userModules/user.js'
 
 
-// import path, { dirname } from 'path'
+import  { dirname } from 'path'
 
-import path from 'path';
+// import path from 'path';
 import { fileURLToPath } from 'url';
 
-// const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-let dirPath = path.join(process.cwd(), '/server/services/common/proto/userProto/userCrud.rpc.proto')
+// let dirPath = path.join(process.cwd(), '/server/services/common/proto/userProto/userCrud.rpc.proto')
 
-const packageDefinition = protoLoader.loadSync(dirPath,{
+const packageDefinition = protoLoader.loadSync(`${__dirname}/proto/userProto/userCrud.rpc.proto`,{
     keepCase:true,
     longs:String,
     defaults:true
@@ -28,7 +28,8 @@ server.addService(userProto.user.userCrud.rpc.userCrudService.service,{
     update : updateById,
     delete : deleteById,
     register : registerUser,
-    login: loginByEmail
+    login: loginByEmail,
+    logout: logoutById
 })
 
    
