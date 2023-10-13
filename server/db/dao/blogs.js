@@ -30,21 +30,12 @@ function getAllBlogs(queryOptions) {
 			tagFilterStatement += ' FALSE) ';
 		}
 
-		const statement =
-			'SELECT Blogs.id, title, content, image, createdAt, createdBy, deletedAt FROM Blogs ' +
-			innerJoinStatement +
-			'WHERE Blogs.deletedAt IS NULL ' +
-			tagFilterStatement +
-			'LIMIT ?, ? ;';
-
-		// connection.prepare(statement, (err, st) => {
-		//     st.execute([queryOptions.offset, queryOptions.limit], (err, result, fields) => {
-		//         if (err) return reject(err)
-		//         console.log(`--- SELECT // ${result.length} ROWS SELECTED ---`);
-		//         console.log(result);
-		//         resolve(result)
-		//     })
-		// })
+		const statement = `SELECT 
+		Blogs.id, title, content, image, createdAt, createdBy, deletedAt 
+		FROM Blogs 
+		${innerJoinStatement} 
+		WHERE Blogs.deletedAt IS NULL ${tagFilterStatement} 
+		LIMIT ?, ? `;
 
 		connection.query(statement, [queryOptions.offset, queryOptions.limit], (err, result, fields) => {
 			if (err) return reject(err);
