@@ -1,4 +1,4 @@
-import { createBlog, getAllBlogs, deleteBlog, updateBlog, getBlogById } from '../db/dao/BlogsDAO.js';
+import { createBlog, getAllBlogs, deleteBlog, updateBlog, getBlogById } from '../db/dao/blogs.js';
 
 async function listBlogsService(call, callback) {
 	const { page, perPageCount, tags } = call.request;
@@ -86,7 +86,7 @@ async function deleteBlogService(call, callback) {
 	if (!id) return callback({ message: 'Blog id not defined.' }, null);
 
 	const response = await deleteBlog(id);
-	
+
 	callback(null, response);
 }
 
