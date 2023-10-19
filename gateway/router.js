@@ -3,7 +3,7 @@ import grpc from '@grpc/grpc-js';
 import protoloader from '@grpc/proto-loader';
 import path from 'path';
 
-const blogsPackage = protoloader.loadSync(path.resolve('common/proto/blog.proto'), {
+const blogsPackage = protoloader.loadSync(path.resolve('../common/proto/blog.proto'), {
 	keepCase: true,
 	longs: String,
 	enums: String,

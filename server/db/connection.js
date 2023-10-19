@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { createConnection } from "mysql2";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const connection = createConnection({
-    host: 'localhost',
+    host: 'db',
     user: 'root',
     password: 'password',
     database: 'cms',
@@ -10,7 +13,7 @@ const connection = createConnection({
 });
 
 connection.query("SELECT 1", (err, result, fields) => {
-    if (err) throw err
+    if (err) console.log(err);
     console.log("\nDatabase Connected");
 })
 

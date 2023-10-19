@@ -1,0 +1,51 @@
+services:
+    common:
+        build: ./common
+        volumes:
+            - common:/usr/src/common
+
+    gateway:
+        build: ./gateway
+        ports:
+            - 127.0.0.1:8080:8080
+        depends_on:
+            - common
+            - server
+        volumes:
+            - common:/usr/src/common
+
+    server:
+        build: ./server
+        ports:
+            - 127.0.0.1:3000:3000
+        depends_on:
+            - common
+            - db
+        volumes:
+            - common:/usr/src/common
+        networks:
+            - db_network
+        environment:
+            DB_USER: root
+            DB_PASSWORD: password
+            DB_NAME: cms
+
+    db:
+        image: mysql:8.0
+        ports:
+            - 3307:3306
+        networks:
+            - db_network
+        volumes:
+            - mysql-data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: cms
+
+volumes:
+    common:
+    mysql-data:
+
+networks:
+    db_network:
+

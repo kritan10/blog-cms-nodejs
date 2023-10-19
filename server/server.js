@@ -3,7 +3,7 @@ import protoloader from '@grpc/proto-loader';
 import { listBlogsService, getBlogByIdService, createBlogService, updateBlogService, deleteBlogService } from './services/blogs.js';
 import path from 'path';
 
-const blogsPackage = protoloader.loadSync(path.resolve('common/proto/blog.proto'), {
+const blogsPackage = protoloader.loadSync(path.resolve('../common/proto/blog.proto'), {
 	keepCase: true,
 	longs: String,
 	enums: String,
@@ -29,4 +29,8 @@ function main() {
 	});
 }
 
-main();
+try {
+	main();
+} catch (e) {
+	console.log(e);
+}
