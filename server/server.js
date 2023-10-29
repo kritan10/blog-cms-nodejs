@@ -24,7 +24,8 @@ function main() {
 		DeleteBlog: deleteBlogService,
 	});
 
-	server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+	server.bindAsync('0.0.0.0:3000', grpc.ServerCredentials.createInsecure(), (err, port) => {
+		console.log(port);
 		server.start();
 	});
 }

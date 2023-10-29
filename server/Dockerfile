@@ -12,4 +12,6 @@ COPY ./package.json .
 RUN npm install
 COPY . .
 
-CMD ["node","server.js"]
+CMD ["/bin/sh", "-c", "echo 'Performing migration'; npx sequelize-cli db:migrate; npx sequelize-cli db:seed:all; echo 'Migration complete'; NODE_ENV=production; node server; "]
+
+

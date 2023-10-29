@@ -2,6 +2,9 @@ import express from 'express';
 import grpc from '@grpc/grpc-js';
 import protoloader from '@grpc/proto-loader';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
 
 const blogsPackage = protoloader.loadSync(path.resolve('../common/proto/blog.proto'), {
 	keepCase: true,
@@ -12,7 +15,8 @@ const blogsPackage = protoloader.loadSync(path.resolve('../common/proto/blog.pro
 });
 
 const Blogs = grpc.loadPackageDefinition(blogsPackage).blog;
-const client = new Blogs.BlogService('localhost:50051', grpc.credentials.createInsecure());
+const client = new Blogs.BlogService(`${process.env.GRPC_ADDRESS}:${process.env.GRPC_PORT}`, grpc.credentials.createInsecure());
+
 
 var router = express.Router();
 

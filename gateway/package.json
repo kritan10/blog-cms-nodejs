@@ -5,16 +5,18 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon index"
+		"start": "NODE_ENV=development node index",
+		"start-prod": "NODE_ENV=production node index"
 	},
 	"type": "module",
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@grpc/grpc-js": "^1.9.5",
+		"@grpc/proto-loader": "^0.7.10",
+		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"morgan": "^1.10.0"
-	},
-	"devDependencies": {
 	}
 }

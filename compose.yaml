@@ -13,22 +13,23 @@ services:
             - server
         volumes:
             - common:/usr/src/common
+        networks:
+            - server_network
 
     server:
         build: ./server
         ports:
             - 127.0.0.1:3000:3000
         depends_on:
-            - common
-            - db
+            common:
+                condition: service_started
+            db:
+                condition: service_healthy
         volumes:
             - common:/usr/src/common
         networks:
             - db_network
-        environment:
-            DB_USER: root
-            DB_PASSWORD: password
-            DB_NAME: cms
+            - server_network
 
     db:
         image: mysql:8.0
@@ -41,6 +42,12 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_DATABASE: cms
+        healthcheck:
+            test: mysqladmin ping -h 127.0.0.1
+            start_period: 5s
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
 volumes:
     common:
@@ -48,4 +55,4 @@ volumes:
 
 networks:
     db_network:
-
+    server_network:
